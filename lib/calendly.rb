@@ -3,6 +3,7 @@ require "calendly/configuration"
 require "calendly/error_msg"
 require "net/http"
 require "json"
+require "openssl"
 
 module Calendly
 	CALENDLY_URL = "https://calendly.com/api/v1/"
@@ -21,19 +22,29 @@ module Calendly
 
   def self.test_authentication
     checking_token
-    
+
     url = "#{CALENDLY_URL}echo"
-   
+
     response = request(url, 'get')
 		data = response.body
 		response.code.eql?("204") ? {message: 'Authentication valid!'} : JSON.parse(data)
   end
- 
+
   def self.webhook_subscription(params={})
   	checking_token
     url = "#{CALENDLY_URL}hooks"
 
 		res = request(url, 'post', params)
+
+    data = res.body
+    JSON.parse(data)
+  end
+
+  def self.webhook_subscriptions
+  	checking_token
+    url = "#{CALENDLY_URL}hooks"
+
+		res = request(url, 'get')
 
     data = res.body
     JSON.parse(data)
@@ -66,7 +77,7 @@ module Calendly
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      
+
     request = eval "Net::HTTP::#{req_type.capitalize}.new(uri.request_uri)"
     request["X-TOKEN"] = @configuration.token
     request.content_type = "application/json"
@@ -81,6 +92,6 @@ module Calendly
 
   private
   def self.checking_token
-    raise Calendly::ErrorMsg.new(msg: "Authentication Token have not yet setup.", error: {status: 202, message: 'Authentication Token have not yet setup'}) unless configured? 
+    raise Calendly::ErrorMsg.new(msg: "Authentication Token have not yet setup.", error: {status: 202, message: 'Authentication Token have not yet setup'}) unless configured?
   end
 end

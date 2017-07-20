@@ -25,6 +25,9 @@ http://developer.calendly.com/docs/test-authentication-token
 Calendly.webhook_subscription({url: 'url', events: ["invitee.created", "invitee.canceled"]})
 http://developer.calendly.com/docs/webhook-subscriptions
 
+Calendly.webhook_subscriptions
+http://developer.calendly.com/docs/webhook-subscriptions
+
 Calendly.delete_webhook(hook_id)
 http://developer.calendly.com/docs/delete-webhook-subscription
 

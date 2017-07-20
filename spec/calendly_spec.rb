@@ -32,6 +32,11 @@ describe "#configure" do
     expect(hook).to have_key("id")
 	end
 
+	it "Webhook subscriptions" do
+    hooks = Calendly.webhook_subscriptions
+    expect(hooks).to have_key("data")
+	end
+
 	it "Delete webhook" do
     hook = Calendly.webhook_subscription({url: "http://testing#{Time.now.to_i}.com", events: ["invitee.created"]})
     delete = Calendly.delete_webhook(hook["id"])
