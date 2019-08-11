@@ -4,4 +4,5 @@ class Calendly::ErrorMsg < StandardError
     @errors = errors
     super(msg)
   end
+
 end

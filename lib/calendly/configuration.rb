@@ -1,13 +1,13 @@
 module Calendly
   class Configuration
-  	attr_accessor :token
+    attr_accessor :token
 
-	  def self.initialize
+    def self.initialize
       @token = nil
-	  end
+    end
 
-	  def self.test_token
+    def self.test_token
       "IOINHFDPPCOBKUHHAVZQT4LGTVELZBWU"
-	  end
+    end
   end
 end
